@@ -1,4 +1,6 @@
-﻿interface StartScreenProps {
+import { MAX_ROUNDS, RULES_VERSION } from '../rules/gameRules';
+
+interface StartScreenProps {
   recordCount: number;
   onStart: () => void;
   onDashboard: () => void;
@@ -12,7 +14,7 @@ export function StartScreen({ recordCount, onStart, onDashboard }: StartScreenPr
           <span className="screen-brand-en">SILLAGE</span>
           <span className="screen-brand-zh">余香</span>
         </div>
-        <p className="screen-kicker">SINGLE PERFUMER / V0.12 PLAYABLE PROTOTYPE</p>
+        <p className="screen-kicker">SINGLE PERFUMER / V{RULES_VERSION} PLAYABLE PROTOTYPE</p>
         <h1>先履约，再雕琢。</h1>
         <p className="screen-description">
           从八种香气中抽取本回合公共池，为两位顾客各自调香。顾客偏好会影响满意度，交付提供固定订单分，技法决定作品的上限。
@@ -30,7 +32,7 @@ export function StartScreen({ recordCount, onStart, onDashboard }: StartScreenPr
         <div className="screen-facts">
           <span>8 香气</span>
           <span>16 位顾客</span>
-          <span>6 格 FIFO</span>
+          <span>{MAX_ROUNDS} 回合</span>
           <span>3 种技法</span>
         </div>
       </section>

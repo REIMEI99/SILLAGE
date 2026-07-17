@@ -1,4 +1,5 @@
 import type { ScentType, TechniqueResult } from '../types/game';
+import { PERFECT_TECHNIQUE_BONUS } from './gameRules';
 
 const TECHNIQUE_LABELS = {
   INTENSE: { labelZh: '浓烈', labelEn: 'INTENSE' },
@@ -18,13 +19,14 @@ function result(
   level: 0 | 1 | 2,
   isPerfect: boolean,
 ): TechniqueResult {
+  const perfectBonus = isPerfect ? PERFECT_TECHNIQUE_BONUS[type] : 0;
   return {
     type,
     ...TECHNIQUE_LABELS[type],
     level,
-    score: isPerfect ? 8 : level,
+    score: isPerfect ? (perfectBonus === 6 ? 8 : 7) : level,
     isPerfect,
-    perfectBonus: isPerfect ? 6 : 0,
+    perfectBonus,
   };
 }
 

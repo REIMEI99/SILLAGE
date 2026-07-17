@@ -1,17 +1,7 @@
-﻿import { SCENT_ORDER, wheelDistance } from './scentRules';
+import { SCENT_ORDER, wheelDistance } from './scentRules';
 import type { Customer, ScentType } from '../types/game';
 
 export type ScentWeight = -1 | 0 | 1 | 2;
-
-function neighbor(scent: ScentType, offset: number): ScentType {
-  const index = SCENT_ORDER.indexOf(scent);
-  return SCENT_ORDER[(index + offset + SCENT_ORDER.length) % SCENT_ORDER.length];
-}
-
-function edgeNeutralScents(preferences: ScentType[]): Set<ScentType> {
-  if (preferences.length < 2) return new Set();
-  return new Set([neighbor(preferences[0], -1), neighbor(preferences[preferences.length - 1], 1)]);
-}
 
 export function getCustomerScentWeight(customer: Customer, scent: ScentType): ScentWeight {
   if (customer.type === 'SPECIAL') return 0;
@@ -23,8 +13,8 @@ export function getCustomerScentWeight(customer: Customer, scent: ScentType): Sc
   }
   if (customer.type === 'TRIO') return customer.preferenceScents.includes(scent) ? 1 : 0;
   if (customer.preferenceScents.includes(scent)) return 1;
-  if (edgeNeutralScents(customer.preferenceScents).has(scent)) return 0;
-  return -1;
+  if (customer.negativeScents?.includes(scent)) return -1;
+  return 0;
 }
 
 export function getCustomerScentWeights(customer: Customer): Record<ScentType, ScentWeight> {
@@ -57,6 +47,6 @@ export function getSatisfactionRuleText(customer: Customer): string {
   if (customer.specialRule === 'COUNT_FOCUS') return '最高香气重复次数 − 1';
   if (customer.specialRule === 'UNIQUE_LAYERS') return '不同香气种类数 − 1';
   if (customer.type === 'TRIO') return '偏好香气每枚 +1，其余 0';
-  if (customer.type === 'DUET') return '偏好双香 +1，对立香 −1';
+  if (customer.type === 'DUET') return '偏好双香 +1，指定对立香 −1，其余 0';
   return '主香 +2，远离香 −1';
 }

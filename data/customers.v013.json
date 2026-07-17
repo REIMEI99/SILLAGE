@@ -1,0 +1,18 @@
+[
+  {"id":"single-01","type":"FOCUS","name":"准备独自旅行的人","request":"我想要很明确的柑橘感，亮一点。","preferenceScents":["citrus"],"satisfactionLine":2,"orderScore":3},
+  {"id":"single-02","type":"FOCUS","name":"在海边长大的研究生","request":"我想要很明确的水生感，越清透越好。","preferenceScents":["aquatic"],"satisfactionLine":2,"orderScore":3},
+  {"id":"single-03","type":"FOCUS","name":"每周照料阳台植物的人","request":"我想要很绿，像刚折断的叶茎。","preferenceScents":["green"],"satisfactionLine":2,"orderScore":3},
+  {"id":"single-04","type":"FOCUS","name":"为朋友准备生日礼物的人","request":"果香要明显，一闻就能知道。","preferenceScents":["fruity"],"satisfactionLine":2,"orderScore":3},
+  {"id":"single-05","type":"FOCUS","name":"雨天来访的插画师","request":"我想要很明确的花香，不要让我猜。","preferenceScents":["floral"],"satisfactionLine":2,"orderScore":3},
+  {"id":"single-06","type":"FOCUS","name":"收藏老唱片的人","request":"要暖，也要有明显的辛香感。","preferenceScents":["amber"],"satisfactionLine":2,"orderScore":3},
+  {"id":"single-07","type":"FOCUS","name":"凌晨下班的调酒师","request":"木质要站在最前面。","preferenceScents":["woody"],"satisfactionLine":2,"orderScore":3},
+  {"id":"single-08","type":"FOCUS","name":"周末准备去露营的人","request":"我想要很明显的草本气息。","preferenceScents":["aromatic"],"satisfactionLine":2,"orderScore":3},
+  {"id":"duet-01","type":"DUET","name":"晨跑后推门进来的编辑","request":"清亮一点，柑橘和水汽我都喜欢，但不要花香。","preferenceScents":["citrus","aquatic"],"negativeScents":["floral"],"satisfactionLine":2,"orderScore":3},
+  {"id":"duet-02","type":"DUET","name":"刚从山里回来的人","request":"青一点，也可以带些果香，但别太木。","preferenceScents":["green","fruity"],"negativeScents":["woody"],"satisfactionLine":2,"orderScore":3},
+  {"id":"duet-03","type":"DUET","name":"夜班结束后还不想回家的人","request":"有花，也希望暖一点、辛一点，不要柑橘的尖锐感。","preferenceScents":["floral","amber"],"negativeScents":["citrus"],"satisfactionLine":2,"orderScore":3},
+  {"id":"duet-04","type":"DUET","name":"刚从排练室出来的舞者","request":"木质和草本都行，干一点，别有太多青绿叶片感。","preferenceScents":["woody","aromatic"],"negativeScents":["green"],"satisfactionLine":2,"orderScore":3},
+  {"id":"trio-01","type":"TRIO","name":"总把窗开到最大的人","request":"想要清爽的，像一早把窗全打开。","preferenceScents":["citrus","green","floral"],"satisfactionLine":2,"orderScore":3},
+  {"id":"trio-02","type":"TRIO","name":"深夜游完泳的人","request":"湿润、青绿，带一点果味也可以。","preferenceScents":["aquatic","fruity","woody"],"satisfactionLine":2,"orderScore":3},
+  {"id":"special-01","type":"SPECIAL","specialRule":"COUNT_FOCUS","name":"主角明确","request":"我想要一个清晰的主角，其余只做陪衬。","preferenceScents":[],"satisfactionLine":2,"orderScore":3},
+  {"id":"special-02","type":"SPECIAL","specialRule":"UNIQUE_LAYERS","name":"多面变化","request":"我想要一瓶有多个侧面的香气。","preferenceScents":[],"satisfactionLine":2,"orderScore":3}
+]

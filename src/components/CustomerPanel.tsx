@@ -1,4 +1,4 @@
-﻿import { SCENT_BY_ID } from '../data/gameData';
+import { SCENT_BY_ID } from '../data/gameData';
 import { canDeliver, getWorktableSatisfaction } from '../rules/compatibilityRules';
 import { getCustomerScentWeights, getPositiveScentIds, getSatisfactionRuleText } from '../rules/customerRules';
 import { formatSigned } from '../rules/previewRules';
@@ -30,6 +30,9 @@ export function CustomerPanel({ side, worktable }: CustomerPanelProps) {
   const positiveNames = positiveScents.length
     ? positiveScents.map((scent) => `${SCENT_BY_ID[scent].nameZh} ${formatSigned(weights[scent])}`).join(' / ')
     : '由结构规则结算';
+  const negativeNames = customer.negativeScents?.length
+    ? customer.negativeScents.map((scent) => SCENT_BY_ID[scent].nameZh).join(' / ')
+    : null;
   const satisfaction = getWorktableSatisfaction(customer, worktable.formula);
   const deliverable = canDeliver(worktable);
 
@@ -44,7 +47,7 @@ export function CustomerPanel({ side, worktable }: CustomerPanelProps) {
       </div>
       <div className="requirement-chip" style={{ color: accent }}>
         <i />
-        加分香气 {positiveNames}；满意线 {customer.satisfactionLine}
+        加分香气 {positiveNames}{negativeNames ? `；回避 ${negativeNames} −1` : ''}；满意线 {customer.satisfactionLine}
       </div>
       <div className="rulelist">
         <div className="rulerow">

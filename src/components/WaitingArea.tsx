@@ -1,4 +1,4 @@
-﻿import type { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { SCENT_BY_ID } from '../data/gameData';
 import type { Customer, Side } from '../types/game';
 import { Glyph } from './Glyph';
@@ -23,6 +23,7 @@ export function WaitingArea({ customers, selectable, selectionSide, onSelect }: 
           const preferenceNames = customer.preferenceScents.length
             ? customer.preferenceScents.map((scent) => SCENT_BY_ID[scent].nameZh).join(' / ')
             : '结构型偏好';
+          const negativeNames = customer.negativeScents?.map((scent) => SCENT_BY_ID[scent].nameZh).join(' / ');
           const content = (
             <>
               <div className="wait-top">
@@ -30,7 +31,7 @@ export function WaitingArea({ customers, selectable, selectionSide, onSelect }: 
                 <small>WAITING / {String(index + 1).padStart(2, '0')}</small>
               </div>
               <h4>{customer.name}</h4>
-              <b>偏好 · {preferenceNames}</b>
+              <b>偏好 · {preferenceNames}{negativeNames ? ` / 回避 · ${negativeNames}` : ''}</b>
               <small className="wait-request">{customer.request}</small>
             </>
           );

@@ -1,39 +1,36 @@
-# SILLAGE / 《余香》 v0.12
+# SILLAGE / 《余香》 v0.13
 
-SILLAGE 是一个 1920×1080 视觉构图的网页单人调香游戏原型，当前工程使用 React + TypeScript + Vite。B2.10 reference 保留为视觉 source of truth，v0.12 文档与数据是当前机械规则 source of truth。
+SILLAGE 是一个 React + TypeScript + Vite 网页单人调香游戏原型。B2.10 reference 是视觉 source of truth，v0.13 文档与数据是当前机械规则 source of truth。
 
-## 当前可玩内容
+## 当前规则摘要
 
-- 从开始页面启动一局游戏；
-- 两个工作台、中心香气环、公共池和三人公开等候区都由 `GameState` 驱动；
-- 16 张顾客卡：8 张单香气、4 张双香气、2 张三香气、2 张特殊卡；
-- 所有顾客满意线为 +2，配方长度为 3–6 枚；
-- 所有逐枚正权重香气在中心香气环高亮，香气剩余枚数实时显示；
-- 公共池 hover / focus 会通过 pure rule functions 同时预演加入左右瓶后的满意度与技法变化；
-- 顾客满意度只决定能否交付，订单固定 3 分；技法最多结算一种，完美技法共 8 分技法分；
-- 顾客没有耐心和自动离店，会一直等待到交付；
-- 每局结束可输入本局想法，原始事件、状态、订单和反馈保存到 `data/session-records.json`，并在数据看板统计。
+- 8 种香气、16 张顾客卡、左右双工作台与三人公开等候区；
+- 固定 20 回合，每回合公共池抽 4 枚、投入 2 枚；
+- 配方为 6 格 FIFO，至少 3 枚且顾客满意度达到 +2 才能交付；
+- 订单固定 3 分，顾客满意度不直接计分；
+- 完美浓烈奖励 +6，完美纯粹与完美层叠奖励 +5；
+- 双香顾客两种偏好各 +1、一种指定对立香气 −1、其余 0；
+- 顾客没有耐心或自动离店；
+- 公共池 hover / focus 通过 pure rule functions 同时预演左右瓶满意度与技法；
+- 每局结束可填写想法，原始记录保存在本地 `data/session-records.json`，该文件不会上传 GitHub。
 
-## 规则与数据
+## 当前 source of truth
 
-- [v0.12 机械规则](docs/RULES_v0.12.md)
-- [v0.12 顾客卡池](docs/CUSTOMER_DECK_v0.12.md)
-- [v0.12 回合状态机](docs/ROUND_FLOW_STATE_MACHINE_v0.12.md)
-- [v0.10 视觉 / 迁移文档](docs/VISUAL_UI_SPEC.md)、[v0.12 React 迁移说明](docs/REACT_MIGRATION_v0.12.md)
-- [v0.12 顾客数据](data/customers.v012.json)
+- [v0.13 机械规则](docs/RULES_v0.13.md)
+- [v0.13 顾客卡池](docs/CUSTOMER_DECK_v0.13.md)
+- [v0.13 回合状态机](docs/ROUND_FLOW_STATE_MACHINE_v0.13.md)
+- [v0.13 顾客数据](data/customers.v013.json)
 - [香气数据](data/scents.v010.json)
+- [视觉说明](docs/VISUAL_UI_SPEC.md)
 
-## 启动
+旧版文档与 JSON 继续保留，用于回溯测试记录，不作为当前实现依据。
+
+## 启动与验证
 
 ```bash
 npm install
 npm run dev
-```
-
-然后打开 Vite 输出的本地地址。测试阶段的记录由 Vite middleware 直接写入本地 JSON；如果接口不可用，浏览器会下载一份备份 JSON。
-
-## 验证
-
-```bash
 npm run build
 ```
+
+Vite middleware 在本地读写 `data/session-records.json`；接口不可用时，浏览器会下载一份备份 JSON。

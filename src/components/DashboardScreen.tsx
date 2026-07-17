@@ -1,4 +1,5 @@
-﻿import { getDashboardStats } from '../data/sessionStorage';
+import { getDashboardStats } from '../data/sessionStorage';
+import { RULES_VERSION } from '../rules/gameRules';
 import type { GameRecord } from '../types/game';
 
 interface DashboardScreenProps {
@@ -21,7 +22,7 @@ export function DashboardScreen({ records, onBack }: DashboardScreenProps) {
               <span className="screen-brand-en">SILLAGE</span>
               <span className="screen-brand-zh">余香</span>
             </div>
-            <p className="screen-kicker">PLAYTEST DATA / V0.12</p>
+            <p className="screen-kicker">PLAYTEST DATA / V{RULES_VERSION}</p>
           </div>
           <button className="text-button" type="button" onClick={onBack}>返回首页</button>
         </header>
@@ -56,7 +57,7 @@ export function DashboardScreen({ records, onBack }: DashboardScreenProps) {
                   </summary>
                   <div className="record-body">
                     <p><strong>本局想法：</strong> {record.thought || '（未填写）'}</p>
-                    <p><strong>种子：</strong> {record.seed} <strong>事件数：</strong> {record.events.length}</p>
+                    <p><strong>版本：</strong> {record.rulesVersion ?? 'legacy'} <strong>种子：</strong> {record.seed} <strong>事件数：</strong> {record.events.length}</p>
                     <pre>{JSON.stringify(record, null, 2)}</pre>
                   </div>
                 </details>

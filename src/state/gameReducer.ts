@@ -1,6 +1,7 @@
-﻿import { canDeliver } from '../rules/compatibilityRules';
+import { canDeliver } from '../rules/compatibilityRules';
 import { getPendingDeliverySides, requiresDeliveryDecision } from '../rules/deliveryRules';
 import { getSatisfaction } from '../rules/customerRules';
+import { MAX_ROUNDS } from '../rules/gameRules';
 import { appendScentFIFO } from '../rules/scentRules';
 import { getBottleScore } from '../rules/scoringRules';
 import { getBestTechnique } from '../rules/techniqueRules';
@@ -29,6 +30,14 @@ function withEvent(
   return { ...state, events: [...state.events, event] };
 }
 
+function endGame(state: GameState, reason: 'MAX_ROUNDS' | 'BAG_BELOW_FOUR'): GameState {
+  return withEvent(
+    { ...state, phase: 'game_over', pool: [], usedPoolIndexes: [], actionsLeft: 0 },
+    'GAME_OVER',
+    { reason, maxRounds: MAX_ROUNDS, bagRemaining: state.bag.length },
+  );
+}
+
 function hasEmptyTable(state: GameState): boolean {
   return !state.left.customer || !state.right.customer;
 }
@@ -40,13 +49,8 @@ function nextSelectionSide(state: GameState): Side | null {
 }
 
 function drawRound(state: GameState): GameState {
-  if (state.bag.length < 4) {
-    return withEvent(
-      { ...state, phase: 'game_over', pool: [], usedPoolIndexes: [], actionsLeft: 0 },
-      'GAME_OVER',
-      { reason: 'BAG_BELOW_FOUR', bagRemaining: state.bag.length },
-    );
-  }
+  if (state.round > MAX_ROUNDS) return endGame(state, 'MAX_ROUNDS');
+  if (state.bag.length < 4) return endGame(state, 'BAG_BELOW_FOUR');
 
   const pool = state.bag.slice(0, 4);
   const next = {
@@ -62,6 +66,12 @@ function drawRound(state: GameState): GameState {
 }
 
 function beginNextRound(state: GameState): GameState {
+  if (state.round >= MAX_ROUNDS) {
+    return endGame(
+      { ...state, roundsCompleted: Math.max(state.roundsCompleted, MAX_ROUNDS) },
+      'MAX_ROUNDS',
+    );
+  }
   return drawRound({
     ...state,
     phase: 'drawing',
@@ -110,6 +120,7 @@ function orderFromWorktable(
     customerType: table.customer.type,
     specialRule: table.customer.specialRule,
     preferenceScents: [...table.customer.preferenceScents],
+    negativeScents: table.customer.negativeScents ? [...table.customer.negativeScents] : undefined,
     satisfaction,
     satisfactionLine: table.customer.satisfactionLine,
     formula: [...table.formula],
@@ -143,24 +154,45 @@ function resolveDelivery(state: GameState): GameState {
       customerType: order.customerType,
       specialRule: order.specialRule,
       preferenceScents: order.preferenceScents,
+      negativeScents: order.negativeScents,
       formula: order.formula,
       satisfaction: order.satisfaction,
       satisfactionLine: order.satisfactionLine,
       technique: order.technique.type,
       techniqueScore: order.technique.score,
+      perfectBonus: order.technique.perfectBonus,
       score: order.score,
     });
     if (side === 'left') left = emptyWorktable();
     else right = emptyWorktable();
   }
 
-  const needsCustomerSelection = (!left.customer || !right.customer) && state.waitingCustomers.length > 0;
-  const phase = needsCustomerSelection ? ('customer_selection' as const) : ('drawing' as const);
+  const isFinalRound = state.round >= MAX_ROUNDS;
+  const needsCustomerSelection =
+    !isFinalRound && (!left.customer || !right.customer) && state.waitingCustomers.length > 0;
+  const phase = isFinalRound
+    ? ('game_over' as const)
+    : needsCustomerSelection
+      ? ('customer_selection' as const)
+      : ('drawing' as const);
   const resolvedDelivery = withEvent(
-    { ...next, score, left, right, deliveredOrders, phase },
+    {
+      ...next,
+      score,
+      left,
+      right,
+      deliveredOrders,
+      phase,
+      roundsCompleted: isFinalRound ? state.roundsCompleted + 1 : state.roundsCompleted,
+    },
     'DELIVERY_RESOLVED',
-    { score, deliveredThisRound: deliveredOrders.length - state.deliveredOrders.length },
+    {
+      score,
+      deliveredThisRound: deliveredOrders.length - state.deliveredOrders.length,
+      finalRound: isFinalRound,
+    },
   );
+  if (isFinalRound) return endGame(resolvedDelivery, 'MAX_ROUNDS');
   return phase === 'drawing' ? beginNextRound(resolvedDelivery) : resolvedDelivery;
 }
 
@@ -192,10 +224,13 @@ function selectCustomer(state: GameState, side: Side, customerId: string): GameS
     customerType: selected.type,
     specialRule: selected.specialRule,
     preferenceScents: selected.preferenceScents,
+    negativeScents: selected.negativeScents,
     satisfactionLine: selected.satisfactionLine,
     waitingCount: waitingCustomers.length,
   });
-  return hasEmptyTable(recorded) && recorded.waitingCustomers.length > 0 ? recorded : beginNextRound(recorded);
+  return hasEmptyTable(recorded) && recorded.waitingCustomers.length > 0
+    ? recorded
+    : beginNextRound(recorded);
 }
 
 export function gameReducer(state: GameState | null, action: GameAction): GameState | null {
@@ -285,4 +320,3 @@ export function gameReducer(state: GameState | null, action: GameAction): GameSt
       return state;
   }
 }
-

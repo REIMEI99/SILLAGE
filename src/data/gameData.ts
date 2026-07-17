@@ -1,5 +1,5 @@
 import scentsJson from '../../data/scents.v010.json';
-import customersJson from '../../data/customers.v012.json';
+import customersJson from '../../data/customers.v013.json';
 import citrusGlyph from '../../assets/glyphs/citrus.svg?url';
 import aquaticGlyph from '../../assets/glyphs/aquatic.svg?url';
 import greenGlyph from '../../assets/glyphs/green.svg?url';
@@ -28,6 +28,7 @@ export const CUSTOMERS: Customer[] = customersJson.map((customer) => ({
   type: customer.type as CustomerType,
   specialRule: customer.specialRule as SpecialRule | undefined,
   preferenceScents: customer.preferenceScents as ScentType[],
+  negativeScents: 'negativeScents' in customer ? customer.negativeScents as ScentType[] : undefined,
 }));
 export const CUSTOMER_BY_ID = Object.fromEntries(CUSTOMERS.map((customer) => [customer.id, customer])) as Record<string, Customer>;
 export const FULL_BAG: ScentType[] = SCENTS.flatMap((scent) => Array.from({ length: scent.bagCopies }, () => scent.id));

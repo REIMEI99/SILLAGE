@@ -1,5 +1,6 @@
-﻿import { useMemo } from 'react';
+import { useMemo } from 'react';
 import { getWorktableSatisfaction } from '../rules/compatibilityRules';
+import { MAX_ROUNDS } from '../rules/gameRules';
 import { getPendingDeliverySides } from '../rules/deliveryRules';
 import { previewAddScent } from '../rules/previewRules';
 import type { GameAction, GameState, Side } from '../types/game';
@@ -103,7 +104,7 @@ export function GameBoard({
           <div className="sub">UI STUDY B2.10 · 1920×1080 BASE STAGE / UNIFIED VIEWPORT SCALING</div>
         </div>
         <div className="meta">
-          <span>ROUND <b>{String(state.round).padStart(2, '0')}</b></span>
+          <span>ROUND <b>{String(state.round).padStart(2, '0')} / {MAX_ROUNDS}</b></span>
           <span>ACTIONS <b>{2 - state.actionsLeft} / 2</b></span>
           <span>IN BAG <b>{state.bag.length}</b></span>
           <span>SCORE <b>{state.score}</b></span>

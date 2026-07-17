@@ -1,4 +1,5 @@
 import { CUSTOMERS, FULL_BAG } from '../data/gameData';
+import { RULES_VERSION } from '../rules/gameRules';
 import type { Customer, GameEvent, GameState, GameStartSnapshot, ScentType, WorktableState } from '../types/game';
 
 export interface StartGameOptions {
@@ -13,7 +14,7 @@ function normalizeSeed(seed: number): number {
 }
 
 function nextRandom(rngState: number): { value: number; rngState: number } {
-  let state = (rngState + 0x6d2b79f5) >>> 0;
+  const state = (rngState + 0x6d2b79f5) >>> 0;
   let value = Math.imul(state ^ (state >>> 15), state | 1);
   value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
   return {
@@ -34,19 +35,26 @@ export function shuffleWithState<T>(items: T[], rngState: number): { items: T[];
   return { items: result, rngState: state };
 }
 
+function cloneCustomer(customer: Customer): Customer {
+  return {
+    ...customer,
+    preferenceScents: [...customer.preferenceScents],
+    negativeScents: customer.negativeScents ? [...customer.negativeScents] : undefined,
+  };
+}
+
 export function emptyWorktable(): WorktableState {
   return { customer: null, formula: [] };
 }
 
 export function customerWorktable(customer: Customer): WorktableState {
-  return { customer, formula: [] };
+  return { customer: cloneCustomer(customer), formula: [] };
 }
 
 function cloneWorktable(worktable: WorktableState): WorktableState {
   return {
-    ...worktable,
     formula: [...worktable.formula],
-    customer: worktable.customer ? { ...worktable.customer, preferenceScents: [...worktable.customer.preferenceScents] } : null,
+    customer: worktable.customer ? cloneCustomer(worktable.customer) : null,
   };
 }
 
@@ -55,8 +63,8 @@ function cloneSnapshot(snapshot: GameStartSnapshot): GameStartSnapshot {
     bag: [...snapshot.bag],
     left: cloneWorktable(snapshot.left),
     right: cloneWorktable(snapshot.right),
-    waitingCustomers: snapshot.waitingCustomers.map((customer) => ({ ...customer, preferenceScents: [...customer.preferenceScents] })),
-    customerDeck: snapshot.customerDeck.map((customer) => ({ ...customer, preferenceScents: [...customer.preferenceScents] })),
+    waitingCustomers: snapshot.waitingCustomers.map(cloneCustomer),
+    customerDeck: snapshot.customerDeck.map(cloneCustomer),
   };
 }
 
@@ -67,25 +75,31 @@ export function createNewGameState(options: StartGameOptions): GameState {
   const activeCustomers = customerShuffle.items.slice(0, 5);
   const left = customerWorktable(activeCustomers[0]);
   const right = customerWorktable(activeCustomers[1]);
-  const waitingCustomers = activeCustomers.slice(2, 5);
-  const customerDeck = customerShuffle.items.slice(5);
+  const waitingCustomers = activeCustomers.slice(2, 5).map(cloneCustomer);
+  const customerDeck = customerShuffle.items.slice(5).map(cloneCustomer);
   const initialSnapshot: GameStartSnapshot = {
     bag: [...bagShuffle.items],
     left: cloneWorktable(left),
     right: cloneWorktable(right),
-    waitingCustomers: waitingCustomers.map((customer) => ({ ...customer, preferenceScents: [...customer.preferenceScents] })),
-    customerDeck: customerDeck.map((customer) => ({ ...customer, preferenceScents: [...customer.preferenceScents] })),
+    waitingCustomers: waitingCustomers.map(cloneCustomer),
+    customerDeck: customerDeck.map(cloneCustomer),
   };
   const startedEvent: GameEvent = {
     index: 0,
     round: 1,
     phase: 'drawing',
     type: 'GAME_STARTED',
-    payload: { seed, customerCount: CUSTOMERS.length, scentCount: FULL_BAG.length },
+    payload: {
+      rulesVersion: RULES_VERSION,
+      seed,
+      customerCount: CUSTOMERS.length,
+      scentCount: FULL_BAG.length,
+    },
   };
 
   return {
     sessionId: options.sessionId,
+    rulesVersion: RULES_VERSION,
     seed,
     startedAt: options.startedAt,
     rngState: bagShuffle.rngState,

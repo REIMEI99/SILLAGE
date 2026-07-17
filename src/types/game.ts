@@ -1,4 +1,4 @@
-﻿export type ScentType =
+export type ScentType =
   | 'citrus'
   | 'aquatic'
   | 'green'
@@ -13,6 +13,7 @@ export type GamePhase = 'drawing' | 'mixing' | 'delivery' | 'customer_selection'
 export type CustomerType = 'FOCUS' | 'DUET' | 'TRIO' | 'SPECIAL';
 export type SpecialRule = 'COUNT_FOCUS' | 'UNIQUE_LAYERS';
 export type TechniqueType = 'INTENSE' | 'PURE' | 'LAYERED';
+export type RulesVersion = '0.13';
 
 export interface ScentDefinition {
   id: ScentType;
@@ -31,6 +32,7 @@ export interface Customer {
   name: string;
   request: string;
   preferenceScents: ScentType[];
+  negativeScents?: ScentType[];
   satisfactionLine: number;
   orderScore: number;
 }
@@ -45,9 +47,9 @@ export interface TechniqueResult {
   labelZh: string;
   labelEn: string;
   level: 0 | 1 | 2;
-  score: 0 | 1 | 2 | 8;
+  score: 0 | 1 | 2 | 7 | 8;
   isPerfect: boolean;
-  perfectBonus: 0 | 6;
+  perfectBonus: 0 | 5 | 6;
 }
 
 export interface PreviewResult {
@@ -88,6 +90,7 @@ export interface DeliveredOrder {
   customerType: CustomerType;
   specialRule?: SpecialRule;
   preferenceScents: ScentType[];
+  negativeScents?: ScentType[];
   satisfaction: number;
   satisfactionLine: number;
   formula: ScentType[];
@@ -105,6 +108,7 @@ export interface GameStartSnapshot {
 
 export interface GameState {
   sessionId: string;
+  rulesVersion: RulesVersion;
   seed: number;
   startedAt: string;
   rngState: number;
@@ -137,6 +141,7 @@ export type GameAction =
 
 export interface GameRecord {
   id: string;
+  rulesVersion?: string;
   startedAt: string;
   endedAt: string;
   sessionId: string;

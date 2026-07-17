@@ -1,6 +1,7 @@
 import type { ScentType } from '../types/game';
+import { ORDER_SCORE } from './gameRules';
 import { getBestTechnique } from './techniqueRules';
 
 export function getBottleScore(formula: ScentType[]): number {
-  return 3 + getBestTechnique(formula).score;
+  return ORDER_SCORE + getBestTechnique(formula).score;
 }

@@ -1,7 +1,7 @@
 {
-  "name": "sillage-v012",
+  "name": "sillage-v013",
   "private": true,
-  "version": "0.12.0",
+  "version": "0.13.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

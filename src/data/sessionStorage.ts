@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   DashboardStats,
   GameRecord,
   GameState,
@@ -28,6 +28,7 @@ export async function loadGameRecords(): Promise<GameRecord[]> {
 export function createGameRecord(state: GameState, thought: string, endedAt: string): GameRecord {
   return {
     id: state.sessionId,
+    rulesVersion: state.rulesVersion,
     startedAt: state.startedAt,
     endedAt,
     sessionId: state.sessionId,
@@ -47,7 +48,7 @@ function downloadRecords(records: GameRecord[]) {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement('a');
   anchor.href = url;
-  anchor.download = 'sillage-v012-session-records.json';
+  anchor.download = 'sillage-v013-session-records.json';
   anchor.click();
   URL.revokeObjectURL(url);
 }
