@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SILLAGE UI B2.10 · 1920 Responsive Stage</title>
+<style>
+:root{
+  --ink:#26353c;--muted:#7b8a92;--line:rgba(43,69,82,.12);--soft:rgba(43,69,82,.08);
+  --paper:rgba(255,255,255,.47);
+  --left:#cf8eaa;--left-glow:rgba(207,142,170,.30);
+  --right:#89b6d3;--right-glow:rgba(137,182,211,.30);
+  --citrus:#eed0aa;--aquatic:#c7dde0;--green:#cfdcc3;--fruity:#dfbcaa;
+  --floral:#dfb7cb;--amber:#ceb08f;--woody:#bfae9c;--aromatic:#c1bddb;
+}
+*{box-sizing:border-box}html,body{width:100%;height:100%}
+body{margin:0;overflow:hidden;color:var(--ink);font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif;background:
+radial-gradient(circle at 12% 14%,rgba(216,168,187,.18),transparent 20%),
+radial-gradient(circle at 82% 22%,rgba(168,198,216,.18),transparent 20%),
+linear-gradient(135deg,#eef2f3 0%,#f6f3f4 47%,#edf4f1 100%)}
+.shell{width:1920px;height:1080px;margin:0;padding:30px 42px 26px;position:fixed;left:0;top:0;transform-origin:0 0;overflow:hidden}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.brand{display:flex;align-items:baseline;gap:14px}.brand h1{margin:0;font:500 34px Georgia,"Songti SC",serif}.brand span{font-size:10px;letter-spacing:.28em;color:var(--muted)}
+.sub{font-size:8px;letter-spacing:.13em;color:var(--muted);margin-top:4px}.meta{display:flex;gap:18px;font-size:9px;letter-spacing:.12em;color:var(--muted)}.meta b{color:var(--ink)}
+.stage{margin-top:14px;height:930px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;grid-template-columns:360px minmax(0,1fr) 360px;gap:28px;align-items:center;position:relative;overflow:hidden}
+.stage:before{content:"";position:absolute;left:50%;top:46%;width:1040px;height:680px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,255,255,.23),transparent 72%);pointer-events:none}
+.side{padding:18px 4px;position:relative;z-index:3;min-width:0}.panel{background:var(--paper);border:1px solid var(--line);backdrop-filter:blur(12px);border-radius:8px;padding:17px;box-shadow:0 12px 40px rgba(55,70,78,.055)}.panel+.panel{margin-top:14px}
+.eyebrow{font-size:8px;letter-spacing:.2em;color:var(--muted)}.customer-name{font:500 18px Georgia,"Songti SC",serif;margin:7px 0 11px}.request-row{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:12px}.request-row b{font:500 25px Georgia,"Songti SC",serif}.request-row small{font-size:8px;color:var(--muted);letter-spacing:.14em;text-align:right}.requirement-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;border:1px solid var(--soft);background:rgba(255,255,255,.46);font-size:10px;margin-bottom:10px}.requirement-chip i{width:8px;height:8px;border-radius:50%;background:currentColor}.rulelist{display:grid;gap:8px}.rulerow{display:flex;justify-content:space-between;font-size:11px;padding-top:8px;border-top:1px solid var(--soft)}.rulerow span{color:var(--muted)}.patience{display:flex;gap:5px;margin-top:7px}.patience i{flex:1;height:5px;border-radius:99px;background:rgba(38,53,60,.12)}.patience i.on{background:var(--ink)}.patience i.warn{background:#cc798b}
+
+.bottle-panel{position:relative;overflow:hidden;padding:15px 15px 14px;min-height:560px;display:flex;flex-direction:column}.bottle-panel:before{content:"";position:absolute;left:20px;right:20px;top:64px;height:420px;background:radial-gradient(circle,var(--wash),transparent 68%);filter:blur(20px);opacity:.82}.bottle-head{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}.status{font-size:10px;color:var(--muted)}.status b{color:var(--ink);font-weight:600}.bottle-stage{height:438px;position:relative;z-index:2;display:grid;place-items:center;flex:1}
+.bottle-svg{width:252px;height:392px;display:block}.bottle-svg .glass{fill:rgba(255,255,255,.12);stroke:rgba(72,87,96,.38);stroke-width:1}.bottle-svg .neck{fill:rgba(255,255,255,.18);stroke:rgba(72,87,96,.38);stroke-width:1}
+.dropstack{position:absolute;left:50%;top:79px;transform:translateX(-50%);width:84px;height:250px;display:grid;grid-template-rows:repeat(6,1fr);place-items:center}.drop{width:58px;height:38px;border-radius:58% 42% 58% 42%;background:var(--c);box-shadow:0 8px 20px rgba(55,68,76,.10);position:relative;display:grid;place-items:center;color:color-mix(in srgb,var(--c) 35%, var(--ink))}.ghost{width:1px;height:33px;background:var(--line)}
+.deliver{width:100%;margin-top:10px;border:1px solid var(--action);background:color-mix(in srgb,var(--action) 13%,rgba(255,255,255,.76));color:color-mix(in srgb,var(--action) 78%,var(--ink));border-radius:7px;padding:12px 14px;font:500 13px Georgia,"Songti SC",serif;letter-spacing:.12em;cursor:pointer;position:relative;z-index:2}.deliver span{display:block;font:400 8px Inter,sans-serif;letter-spacing:.15em;color:var(--muted);margin-top:4px}
+
+.center-wrap{position:relative;height:930px;display:grid;place-items:center;z-index:2;min-width:0}.worktable{position:relative;width:820px;height:780px;margin-top:-54px}.ring,.ring2,.ring3{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%}.ring{width:704px;height:704px;border:1px solid rgba(61,86,98,.11)}.ring2{width:548px;height:548px;border:1px solid rgba(61,86,98,.10)}.ring3{width:382px;height:382px;border:1px solid rgba(61,86,98,.09);background:rgba(255,255,255,.15);backdrop-filter:blur(8px)}
+.haze{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:590px;height:590px;border-radius:50%;pointer-events:none;z-index:1;mix-blend-mode:multiply}.haze.left{background:radial-gradient(circle at 52% 66%,rgba(207,142,170,.31),rgba(207,142,170,.12) 25%,transparent 50%)}.haze.right{background:radial-gradient(circle at 30% 39%,rgba(137,182,211,.29),rgba(137,182,211,.11) 27%,transparent 50%)}
+.node{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(var(--a)) translateY(calc(-1*var(--r))) rotate(calc(-1*var(--a)));width:118px;height:72px;border-radius:8px;background:color-mix(in srgb,var(--scent) 40%,rgba(255,255,255,.62));border:1px solid rgba(61,86,98,.08);display:grid;place-items:center;text-align:center;backdrop-filter:blur(8px);z-index:3;box-shadow:0 8px 22px rgba(55,70,78,.04);color:color-mix(in srgb,var(--scent) 55%, var(--ink))}.node:before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at 70% 80%,color-mix(in srgb,var(--scent) 48%,transparent),transparent 60%);opacity:.55}.node .node-content{position:relative;z-index:2;display:grid;justify-items:center;gap:2px}.node strong{font-weight:600;font-size:10px;color:var(--ink)}.node small{display:block;font-size:7px;letter-spacing:.14em;color:var(--muted)}.node.left-target{border:2px solid rgba(207,142,170,.94);box-shadow:0 0 0 4px rgba(207,142,170,.10),0 8px 22px rgba(55,70,78,.04)}.node.right-target{border:2px solid rgba(137,182,211,.96);box-shadow:0 0 0 4px rgba(137,182,211,.10),0 8px 22px rgba(55,70,78,.04)}
+.pool{position:absolute;left:50%;top:50%;width:250px;height:250px;transform:translate(-50%,-50%);z-index:6}.pool-card{position:absolute;width:102px;height:102px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.58);backdrop-filter:blur(12px);display:grid;place-items:center;text-align:center;box-shadow:0 10px 28px rgba(55,70,78,.06);cursor:default;color:color-mix(in srgb,var(--c) 58%, var(--ink))}.pool-card:before{content:"";position:absolute;inset:auto -18px -18px auto;width:76px;height:76px;border-radius:50%;background:var(--c);filter:blur(18px);opacity:.50}.pool-card .card-content{position:relative;z-index:1;display:grid;justify-items:center;gap:4px}.pool-card b{position:relative;z-index:1;font:500 17px Georgia,"Songti SC",serif;color:var(--ink)}.pool-card.one{left:22px;top:22px}.pool-card.two{right:22px;top:22px}.pool-card.three{left:22px;bottom:22px}.pool-card.four{right:22px;bottom:22px}.pool-card:hover{border-color:rgba(38,53,60,.28);transform:translateY(-2px)}
+.center-label{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:154px;text-align:center;z-index:5;pointer-events:none}.center-label small{font-size:8px;letter-spacing:.18em;color:var(--muted)}.center-label h3{margin:6px 0 0;font:500 20px Georgia,"Songti SC",serif;color:rgba(38,53,60,.38)}
+.impact{display:none;position:fixed;left:50%;bottom:112px;transform:translateX(-50%);width:520px;background:rgba(250,251,251,.88);border:1px solid var(--line);backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(50,65,72,.12);border-radius:8px;padding:12px;z-index:30}.pool-card:hover .impact{display:grid;grid-template-columns:1fr 1fr;gap:10px}.impact-side{padding:10px 12px;border:1px solid var(--soft);border-radius:6px;text-align:left}.impact-side.left{background:rgba(207,142,170,.08)}.impact-side.right{background:rgba(137,182,211,.08)}.impact-side small{display:block;font-size:8px;letter-spacing:.18em;color:var(--muted);margin-bottom:5px}.impact-side b{font:500 15px Georgia,"Songti SC",serif}.impact-side p{margin:5px 0 0;font-size:10px;color:var(--muted);line-height:1.5}
+
+.waiting-dock{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:690px;z-index:10}.dock-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-size:8px;letter-spacing:.18em;color:var(--muted)}.dock-head span:last-child{letter-spacing:.06em}.waiting-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.wait-card{background:rgba(255,255,255,.55);border:1px solid var(--line);backdrop-filter:blur(10px);border-radius:7px;padding:10px 11px;position:relative;overflow:hidden;color:color-mix(in srgb,var(--scent) 58%, var(--ink))}.wait-card:after{content:"";position:absolute;right:-16px;bottom:-20px;width:70px;height:70px;border-radius:50%;background:var(--scent);filter:blur(18px);opacity:.42}.wait-card .wait-top{position:relative;z-index:1;display:flex;align-items:center;gap:8px}.wait-card small{position:relative;z-index:1;font-size:7px;letter-spacing:.15em;color:var(--muted)}.wait-card h4{position:relative;z-index:1;margin:5px 0 7px;font:500 13px Georgia,"Songti SC",serif}.wait-card b{position:relative;z-index:1;font-size:10px;font-weight:600;color:var(--ink)}
+footer{display:flex;justify-content:space-between;gap:20px;padding-top:12px;font-size:9px;letter-spacing:.1em;color:var(--muted)}footer b{color:var(--ink)}
+
+.glyph{display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.glyph.icon{width:20px;height:20px}.glyph.node-icon{width:18px;height:18px}.glyph.drop-icon{width:19px;height:19px}.glyph.wait-icon{width:16px;height:16px}
+
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute;visibility:hidden" aria-hidden="true" focusable="false"><defs>
+<symbol id="g-citrus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17"/><path d="M5 12h14"/><path d="M6.6 6.6l10.8 10.8"/><path d="M17.4 6.6L6.6 17.4"/></symbol>
+<symbol id="g-aquatic" viewBox="0 0 24 24"><path d="M4 9c2-2 4-2 6 0s4 2 6 0 4-2 4 0"/><path d="M4 15c2-2 4-2 6 0s4 2 6 0 4-2 4 0"/></symbol>
+<symbol id="g-green" viewBox="0 0 24 24"><path d="M12 18c4.5-2.5 6.8-6.5 6.8-11-4.7 0-8.4 2.1-10.8 6.3-.8 1.4-1.3 3-1.4 4.7 1.6.3 3.6.3 5.4 0z"/><path d="M8.5 16c2.4-2.8 5.2-5.2 8.2-7"/></symbol>
+<symbol id="g-fruity" viewBox="0 0 24 24"><path d="M12 20c-3.8 0-6.8-2.7-6.8-6.2 0-3.2 2.5-5.6 5.7-5.6 1 0 1.7.2 2.6.6 1-.4 1.8-.6 2.7-.6 3.1 0 5.6 2.4 5.6 5.6 0 3.5-2.9 6.2-6.7 6.2z"/><path d="M12.8 8.3c.1-2 1-3.5 2.8-4.8"/><path d="M10.8 7.9c-.9-1.2-2.1-1.9-3.8-2.2"/><path d="M9.8 13.4c.8-.6 1.6-.9 2.2-.9"/></symbol>
+<symbol id="g-floral" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.4"/><ellipse cx="12" cy="7.4" rx="2.5" ry="3.1"/><ellipse cx="16.6" cy="12" rx="3.1" ry="2.5"/><ellipse cx="12" cy="16.6" rx="2.5" ry="3.1"/><ellipse cx="7.4" cy="12" rx="3.1" ry="2.5"/></symbol>
+<symbol id="g-amber" viewBox="0 0 24 24"><path d="M12 3.7v4.2"/><path d="M12 16.1v4.2"/><path d="M3.7 12h4.2"/><path d="M16.1 12h4.2"/><path d="M6.2 6.2l3 3"/><path d="M14.8 14.8l3 3"/><path d="M17.8 6.2l-3 3"/><path d="M9.2 14.8l-3 3"/><circle cx="12" cy="12" r="2.6"/></symbol>
+<symbol id="g-woody" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.7"/><circle cx="12" cy="12" r="1.9"/><path d="M12 4v16"/></symbol>
+<symbol id="g-aromatic" viewBox="0 0 24 24"><path d="M12 19V6"/><path d="M12 9c-2.5-.3-4.4-1.4-5.9-3.2"/><path d="M12 12.5c2.3-.3 4.1-1.3 5.5-3"/><path d="M12 15.8c-2.2-.1-3.9.8-5 2.6"/><path d="M12 18.5c2-.1 3.4.8 4.4 2.2"/></symbol>
+</defs></svg>
+<div class="shell">
+<header><div><div class="brand"><h1>SILLAGE</h1><span>余香</span></div><div class="sub">UI STUDY B2.10 · 1920×1080 BASE STAGE / UNIFIED VIEWPORT SCALING</div></div><div class="meta"><span>ROUND <b>07</b></span><span>ACTIONS <b>1 / 2</b></span><span>IN BAG <b>34</b></span><span>SCORE <b>18</b></span></div></header>
+<section class="stage">
+  <aside class="side">
+    <article class="panel">
+      <div class="eyebrow">CUSTOMER / 01</div><div class="customer-name">雨天来访的插画师</div>
+      <div class="request-row"><b style="color:var(--left)">花香</b><small>PRIMARY SCENT<br>DELIVER IF &gt; 0</small></div>
+      <div class="requirement-chip" style="color:var(--left)"><i></i>目标 +2 · 中距 0 · 远离 -1</div>
+      <div class="rulelist"><div class="rulerow"><span>当前契合</span><b>+2 / 可交付</b></div><div class="rulerow"><span>剩余耐心</span><b>3 / 5</b></div></div>
+      <div class="patience"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+    </article>
+    <article class="panel bottle-panel" style="--wash:var(--left-glow);--action:var(--left)">
+      <div class="bottle-head"><div class="eyebrow">WORKTABLE / LEFT BOTTLE</div><div class="status"><b>4 / 6</b> 格 · 契合 +2</div></div>
+      <div class="bottle-stage">
+        <svg class="bottle-svg" viewBox="0 0 205 340" aria-hidden="true"><rect class="neck" x="75" y="8" width="55" height="48" rx="10"/><path class="glass" d="M59 56 C59 78 40 91 31 118 C16 163 17 213 25 278 C32 316 58 329 102 336 C146 329 173 316 180 278 C188 213 189 163 174 118 C165 91 146 78 146 56 Z"/></svg>
+        <div class="dropstack">
+          <span class="drop" style="--c:var(--floral)"><svg class="glyph drop-icon" viewBox="0 0 24 24"><use href="#g-floral"/></svg></span>
+          <span class="drop" style="--c:var(--fruity)"><svg class="glyph drop-icon" viewBox="0 0 24 24"><use href="#g-fruity"/></svg></span>
+          <span class="drop" style="--c:var(--floral)"><svg class="glyph drop-icon" viewBox="0 0 24 24"><use href="#g-floral"/></svg></span>
+          <span class="drop" style="--c:var(--fruity)"><svg class="glyph drop-icon" viewBox="0 0 24 24"><use href="#g-fruity"/></svg></span>
+          <span class="ghost"></span><span class="ghost"></span>
+        </div>
+      </div>
+      <button class="deliver">交付这瓶香水<span>DELIVER ORDER</span></button>
+    </article>
+  </aside>
+
+  <main class="center-wrap">
+    <div class="worktable">
+      <div class="ring"></div><div class="ring2"></div><div class="ring3"></div><div class="haze left"></div><div class="haze right"></div>
+      <div class="node" style="--a:0deg;--r:324px;--scent:var(--citrus)"><div class="node-content"><svg class="glyph node-icon" viewBox="0 0 24 24"><use href="#g-citrus"/></svg><span><strong>柑橘</strong><small>CITRUS</small></span></div></div>
+      <div class="node" style="--a:45deg;--r:324px;--scent:var(--aquatic)"><div class="node-content"><svg class="glyph node-icon" viewBox="0 0 24 24"><use href="#g-aquatic"/></svg><span><strong>水生</strong><small>AQUATIC</small></span></div></div>
+      <div class="node" style="--a:90deg;--r:324px;--scent:var(--green)"><div class="node-content"><svg class="glyph node-icon" viewBox="0 0 24 24"><use href="#g-green"/></svg><span><strong>绿意</strong><small>GREEN</small></span></div></div>
+      <div class="node" style="--a:135deg;--r:324px;--scent:var(--fruity)"><div class="node-content"><svg class="glyph node-icon" viewBox="0 0 24 24"><use href="#g-fruity"/></svg><span><strong>果香</strong><small>FRUITY</small></span></div></div>
+      <div class="node left-target" style="--a:180deg;--r:324px;--scent:var(--floral)"><div class="node-content"><svg class="glyph node-icon" viewBox="0 0 24 24"><use href="#g-floral"/></svg><span><strong>花香</strong><small>FLORAL</small></span></div></div>
+      <div class="node" style="--a:225deg;--r:324px;--scent:var(--amber)"><div class="node-content"><svg class="glyph node-icon" viewBox="0 0 24 24"><use href="#g-amber"/></svg><span><strong>琥珀辛香</strong><small>AMBER</small></span></div></div>
+      <div class="node right-target" style="--a:270deg;--r:324px;--scent:var(--woody)"><div class="node-content"><svg class="glyph node-icon" viewBox="0 0 24 24"><use href="#g-woody"/></svg><span><strong>木质</strong><small>WOODY</small></span></div></div>
+      <div class="node" style="--a:315deg;--r:324px;--scent:var(--aromatic)"><div class="node-content"><svg class="glyph node-icon" viewBox="0 0 24 24"><use href="#g-aromatic"/></svg><span><strong>芳香草本</strong><small>AROMATIC</small></span></div></div>
+
+      <div class="pool">
+        <div class="pool-card one" style="--c:var(--floral)"><div class="card-content"><svg class="glyph icon" viewBox="0 0 24 24"><use href="#g-floral"/></svg><b>花香</b></div><div class="impact"><div class="impact-side left"><small>LEFT / 花香顾客</small><b>契合 +2 · 完美技法 +6</b><p>放入后形成 AAABB，纯粹完成。</p></div><div class="impact-side right"><small>RIGHT / 木质顾客</small><b>契合 +0 · 完美技法 +6</b><p>作为第六种新香气，层叠完成。</p></div></div></div>
+        <div class="pool-card two" style="--c:var(--woody)"><div class="card-content"><svg class="glyph icon" viewBox="0 0 24 24"><use href="#g-woody"/></svg><b>木质</b></div><div class="impact"><div class="impact-side left"><small>LEFT / 花香顾客</small><b>契合 +0 · 技法无加成</b><p>订单仍可交付，但纯粹路径中断。</p></div><div class="impact-side right"><small>RIGHT / 木质顾客</small><b>契合 +2 · 技法无加成</b><p>强化顾客方向，但不完成 ABCDEF。</p></div></div></div>
+        <div class="pool-card three" style="--c:var(--green)"><div class="card-content"><svg class="glyph icon" viewBox="0 0 24 24"><use href="#g-green"/></svg><b>绿意</b></div><div class="impact"><div class="impact-side left"><small>LEFT / 花香顾客</small><b>契合 +0 · 技法 +1</b><p>安全扩展，但不是完美技法。</p></div><div class="impact-side right"><small>RIGHT / 木质顾客</small><b>契合 -1 · 技法无加成</b><p>重复已有香气，并降低契合。</p></div></div></div>
+        <div class="pool-card four" style="--c:var(--aquatic)"><div class="card-content"><svg class="glyph icon" viewBox="0 0 24 24"><use href="#g-aquatic"/></svg><b>水生</b></div><div class="impact"><div class="impact-side left"><small>LEFT / 花香顾客</small><b>契合 -1 · 技法无加成</b><p>订单压力上升，纯粹路径中断。</p></div><div class="impact-side right"><small>RIGHT / 木质顾客</small><b>契合 -1 · 完美技法 +6</b><p>第六种新香气，完成 ABCDEF。</p></div></div></div>
+      </div>
+      <div class="center-label"><small>ROUND 07 / PUBLIC POOL</small><h3>选择香料</h3></div>
+    </div>
+  </main>
+
+  <aside class="side">
+    <article class="panel">
+      <div class="eyebrow">CUSTOMER / 02</div><div class="customer-name">凌晨下班的调酒师</div>
+      <div class="request-row"><b style="color:var(--right)">木质</b><small>PRIMARY SCENT<br>DELIVER IF &gt; 0</small></div>
+      <div class="requirement-chip" style="color:var(--right)"><i></i>目标 +2 · 中距 0 · 远离 -1</div>
+      <div class="rulelist"><div class="rulerow"><span>当前契合</span><b>+1 / 可交付</b></div><div class="rulerow"><span>剩余耐心</span><b>3 / 5</b></div></div>
+      <div class="patience"><i class="on"></i><i class="on"></i><i class="warn"></i><i></i><i></i></div>
+    </article>
+    <article class="panel bottle-panel" style="--wash:var(--right-glow);--action:var(--right)">
+      <div class="bottle-head"><div class="eyebrow">WORKTABLE / RIGHT BOTTLE</div><div class="status"><b>5 / 6</b> 格 · 契合 +1</div></div>
+      <div class="bottle-stage">
+        <svg class="bottle-svg" viewBox="0 0 205 340" aria-hidden="true"><rect class="neck" x="75" y="8" width="55" height="48" rx="10"/><path class="glass" d="M59 56 C59 78 40 91 31 118 C16 163 17 213 25 278 C32 316 58 329 102 336 C146 329 173 316 180 278 C188 213 189 163 174 118 C165 91 146 78 146 56 Z"/></svg>
+        <div class="dropstack">
+          <span class="drop" style="--c:var(--woody)"><svg class="glyph drop-icon" viewBox="0 0 24 24"><use href="#g-woody"/></svg></span>
+          <span class="drop" style="--c:var(--aromatic)"><svg class="glyph drop-icon" viewBox="0 0 24 24"><use href="#g-aromatic"/></svg></span>
+          <span class="drop" style="--c:var(--citrus)"><svg class="glyph drop-icon" viewBox="0 0 24 24"><use href="#g-citrus"/></svg></span>
+          <span class="drop" style="--c:var(--amber)"><svg class="glyph drop-icon" viewBox="0 0 24 24"><use href="#g-amber"/></svg></span>
+          <span class="drop" style="--c:var(--green)"><svg class="glyph drop-icon" viewBox="0 0 24 24"><use href="#g-green"/></svg></span>
+          <span class="ghost"></span>
+        </div>
+      </div>
+      <button class="deliver">交付这瓶香水<span>DELIVER ORDER</span></button>
+    </article>
+  </aside>
+
+  <section class="waiting-dock">
+    <div class="dock-head"><span>OPEN CUSTOMER QUEUE / 等候中的顾客</span><span>工作台空出后，从三人中选择</span></div>
+    <div class="waiting-list">
+      <article class="wait-card" style="--scent:var(--citrus)"><div class="wait-top"><svg class="glyph wait-icon" viewBox="0 0 24 24"><use href="#g-citrus"/></svg><small>WAITING / 01</small></div><h4>准备独自旅行的人</h4><b>寻找 · 柑橘</b></article>
+      <article class="wait-card" style="--scent:var(--amber)"><div class="wait-top"><svg class="glyph wait-icon" viewBox="0 0 24 24"><use href="#g-amber"/></svg><small>WAITING / 02</small></div><h4>收藏老唱片的人</h4><b>寻找 · 琥珀辛香</b></article>
+      <article class="wait-card" style="--scent:var(--aquatic)"><div class="wait-top"><svg class="glyph wait-icon" viewBox="0 0 24 24"><use href="#g-aquatic"/></svg><small>WAITING / 03</small></div><h4>刚搬进陌生城市的人</h4><b>寻找 · 水生</b></article>
+    </div>
+  </section>
+</section>
+<footer><span>HTML PROTOTYPE · <b>B2.10 1920 RESPONSIVE STAGE</b></span><span>1920×1080 作为统一设计基准；整张游戏舞台随 viewport 等比缩放，所有元素保持相对位置</span></footer>
+</div>
+
+<script>
+(function(){
+  const root = document.querySelector('.shell');
+  const DESIGN_W = 1920;
+  const DESIGN_H = 1080;
+
+  function fitStage(){
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const scale = Math.min(vw / DESIGN_W, vh / DESIGN_H);
+    const renderedW = DESIGN_W * scale;
+    const renderedH = DESIGN_H * scale;
+    root.style.transform = `scale(${scale})`;
+    root.style.left = `${Math.max(0, (vw - renderedW) / 2)}px`;
+    root.style.top = `${Math.max(0, (vh - renderedH) / 2)}px`;
+  }
+
+  fitStage();
+  window.addEventListener('resize', fitStage, {passive:true});
+  window.addEventListener('orientationchange', fitStage, {passive:true});
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,806 @@
+﻿:root {
+  --ink: #26353c;
+  --muted: #7b8a92;
+  --line: rgba(43, 69, 82, 0.12);
+  --soft: rgba(43, 69, 82, 0.08);
+  --paper: rgba(255, 255, 255, 0.47);
+  --left: #cf8eaa;
+  --left-glow: rgba(207, 142, 170, 0.3);
+  --right: #89b6d3;
+  --right-glow: rgba(137, 182, 211, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background:
+    radial-gradient(circle at 12% 14%, rgba(216, 168, 187, 0.18), transparent 20%),
+    radial-gradient(circle at 82% 22%, rgba(168, 198, 216, 0.18), transparent 20%),
+    linear-gradient(135deg, #eef2f3 0%, #f6f3f4 47%, #edf4f1 100%);
+}
+
+button {
+  font: inherit;
+}
+
+.viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.shell {
+  width: 1920px;
+  height: 1080px;
+  margin: 0;
+  padding: 30px 42px 26px;
+  position: fixed;
+  left: var(--stage-left);
+  top: var(--stage-top);
+  transform: scale(var(--stage-scale));
+  transform-origin: 0 0;
+  overflow: hidden;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.brand h1 {
+  margin: 0;
+  font: 500 34px Georgia, "Songti SC", serif;
+  letter-spacing: 0.01em;
+}
+
+.brand span {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--muted);
+}
+
+.sub {
+  font-size: 8px;
+  letter-spacing: 0.13em;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.meta {
+  display: flex;
+  gap: 18px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.meta b {
+  color: var(--ink);
+}
+
+.stage {
+  margin-top: 14px;
+  height: 930px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr) 360px;
+  gap: 28px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.stage::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 1040px;
+  height: 680px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.23), transparent 72%);
+  pointer-events: none;
+}
+
+.side {
+  padding: 18px 4px;
+  position: relative;
+  z-index: 3;
+  min-width: 0;
+}
+
+.panel {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+  padding: 17px;
+  box-shadow: 0 12px 40px rgba(55, 70, 78, 0.055);
+}
+
+.panel + .panel {
+  margin-top: 14px;
+}
+
+.eyebrow {
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.customer-name {
+  font: 500 18px Georgia, "Songti SC", serif;
+  margin: 7px 0 11px;
+}
+
+.empty-customer p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.request-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.request-row b {
+  font: 500 25px Georgia, "Songti SC", serif;
+}
+
+.request-row small {
+  font-size: 8px;
+  color: var(--muted);
+  letter-spacing: 0.14em;
+  text-align: right;
+}
+
+.requirement-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--soft);
+  background: rgba(255, 255, 255, 0.46);
+  font-size: 10px;
+  margin-bottom: 10px;
+}
+
+.requirement-chip i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.rulelist {
+  display: grid;
+  gap: 8px;
+}
+
+.rulerow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  padding-top: 8px;
+  border-top: 1px solid var(--soft);
+}
+
+.rulerow span {
+  color: var(--muted);
+}
+
+
+.bottle-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 15px 15px 14px;
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottle-panel::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 64px;
+  height: 420px;
+  background: radial-gradient(circle, var(--wash), transparent 68%);
+  filter: blur(20px);
+  opacity: 0.82;
+}
+
+.bottle-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.status {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.status b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.bottle-stage {
+  height: 438px;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  flex: 1;
+}
+
+.bottle-svg {
+  width: 252px;
+  height: 392px;
+  display: block;
+}
+
+.bottle-svg .glass,
+.bottle-svg .neck {
+  fill: rgba(255, 255, 255, 0.12);
+  stroke: rgba(72, 87, 96, 0.38);
+  stroke-width: 1;
+}
+
+.bottle-svg .neck {
+  fill: rgba(255, 255, 255, 0.18);
+}
+
+.dropstack {
+  position: absolute;
+  left: 50%;
+  top: 79px;
+  transform: translateX(-50%);
+  width: 84px;
+  height: 250px;
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  place-items: center;
+}
+
+.drop {
+  width: 58px;
+  height: 38px;
+  border-radius: 58% 42% 58% 42%;
+  background: var(--drop-color);
+  box-shadow: 0 8px 20px rgba(55, 68, 76, 0.1);
+  position: relative;
+  display: grid;
+  place-items: center;
+  color: color-mix(in srgb, var(--drop-color) 35%, var(--ink));
+}
+
+.ghost {
+  width: 1px;
+  height: 33px;
+  background: var(--line);
+}
+
+.deliver {
+  width: 100%;
+  margin-top: 10px;
+  border: 1px solid var(--action);
+  background: color-mix(in srgb, var(--action) 13%, rgba(255, 255, 255, 0.76));
+  color: color-mix(in srgb, var(--action) 78%, var(--ink));
+  border-radius: 7px;
+  padding: 12px 14px;
+  font: 500 13px Georgia, "Songti SC", serif;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.deliver span {
+  display: block;
+  font: 400 8px Inter, sans-serif;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.deliver:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.center-wrap {
+  position: relative;
+  height: 930px;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  min-width: 0;
+}
+
+.worktable {
+  position: relative;
+  width: 820px;
+  height: 780px;
+  margin-top: -54px;
+}
+
+.ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(61, 86, 98, 0.11);
+}
+
+.ring:not(.ring-two):not(.ring-three) {
+  width: 704px;
+  height: 704px;
+}
+
+.ring-two {
+  width: 548px;
+  height: 548px;
+  border-color: rgba(61, 86, 98, 0.1);
+}
+
+.ring-three {
+  width: 382px;
+  height: 382px;
+  border-color: rgba(61, 86, 98, 0.09);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.haze {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 590px;
+  height: 590px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+
+.haze.left {
+  background: radial-gradient(circle at 52% 66%, rgba(207, 142, 170, 0.31), rgba(207, 142, 170, 0.12) 25%, transparent 50%);
+}
+
+.haze.right {
+  background: radial-gradient(circle at 30% 39%, rgba(137, 182, 211, 0.29), rgba(137, 182, 211, 0.11) 27%, transparent 50%);
+}
+
+.node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(calc(-1 * var(--radius))) rotate(calc(-1 * var(--angle)));
+  width: 118px;
+  height: 72px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--scent) 40%, rgba(255, 255, 255, 0.62));
+  border: 1px solid rgba(61, 86, 98, 0.08);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  z-index: 3;
+  box-shadow: 0 8px 22px rgba(55, 70, 78, 0.04);
+  color: color-mix(in srgb, var(--scent) 55%, var(--ink));
+}
+
+.node::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 70% 80%, color-mix(in srgb, var(--scent) 48%, transparent), transparent 60%);
+  opacity: 0.55;
+}
+
+.node-content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+}
+
+.node-content span {
+  display: grid;
+  gap: 2px;
+}
+
+.node strong {
+  font-weight: 600;
+  font-size: 10px;
+  color: var(--ink);
+}
+
+.node small {
+  display: block;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+.node.left-target {
+  border: 2px solid rgba(207, 142, 170, 0.94);
+  box-shadow: 0 0 0 4px rgba(207, 142, 170, 0.1), 0 8px 22px rgba(55, 70, 78, 0.04);
+}
+
+.node.right-target {
+  border: 2px solid rgba(137, 182, 211, 0.96);
+  box-shadow: 0 0 0 4px rgba(137, 182, 211, 0.1), 0 8px 22px rgba(55, 70, 78, 0.04);
+}
+
+.node.left-target.right-target {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(color-mix(in srgb, var(--scent) 40%, rgba(255, 255, 255, 0.62)), color-mix(in srgb, var(--scent) 40%, rgba(255, 255, 255, 0.62))) padding-box,
+    linear-gradient(135deg, var(--left), var(--right)) border-box;
+  box-shadow: 0 0 0 4px rgba(177, 161, 192, 0.11), 0 8px 22px rgba(55, 70, 78, 0.04);
+}
+
+.pool {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 250px;
+  height: 250px;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+}
+
+.pool-card {
+  position: absolute;
+  width: 102px;
+  height: 102px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(12px);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  box-shadow: 0 10px 28px rgba(55, 70, 78, 0.06);
+  cursor: pointer;
+  color: color-mix(in srgb, var(--card-color) 58%, var(--ink));
+  padding: 0;
+  transition: transform 140ms ease, border-color 140ms ease, opacity 140ms ease;
+}
+
+.pool-card::before {
+  content: "";
+  position: absolute;
+  inset: auto -18px -18px auto;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--card-color);
+  filter: blur(18px);
+  opacity: 0.5;
+}
+
+.pool-card .card-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+}
+
+.pool-card b {
+  position: relative;
+  z-index: 1;
+  font: 500 17px Georgia, "Songti SC", serif;
+  color: var(--ink);
+}
+
+.pool-card.one {
+  left: 22px;
+  top: 22px;
+}
+
+.pool-card.two {
+  right: 22px;
+  top: 22px;
+}
+
+.pool-card.three {
+  left: 22px;
+  bottom: 22px;
+}
+
+.pool-card.four {
+  right: 22px;
+  bottom: 22px;
+}
+
+.pool-card:hover,
+.pool-card:focus-visible,
+.pool-card.previewing {
+  border-color: rgba(38, 53, 60, 0.3);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.pool-card.used {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.used-mark {
+  position: absolute;
+  right: 7px;
+  top: 6px;
+  z-index: 2;
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.center-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 154px;
+  text-align: center;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.center-label small {
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+
+.center-label h3 {
+  margin: 6px 0 0;
+  font: 500 20px Georgia, "Songti SC", serif;
+  color: rgba(38, 53, 60, 0.38);
+}
+
+.impact-preview {
+  position: absolute;
+  left: 50%;
+  bottom: 108px;
+  transform: translateX(-50%);
+  width: 520px;
+  background: rgba(250, 251, 251, 0.9);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 18px 50px rgba(50, 65, 72, 0.12);
+  border-radius: 8px;
+  padding: 12px;
+  z-index: 30;
+}
+
+.impact-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  margin-bottom: 8px;
+  font: 500 14px Georgia, "Songti SC", serif;
+}
+
+.impact-title small {
+  font: 400 8px Inter, sans-serif;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.impact-side {
+  padding: 10px 12px;
+  border: 1px solid var(--soft);
+  border-radius: 6px;
+  text-align: left;
+}
+
+.impact-side.left {
+  background: rgba(207, 142, 170, 0.08);
+}
+
+.impact-side.right {
+  background: rgba(137, 182, 211, 0.08);
+}
+
+.impact-side small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.impact-side b {
+  font: 500 13px Georgia, "Songti SC", serif;
+  line-height: 1.45;
+}
+
+.impact-side p {
+  margin: 5px 0 0;
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.waiting-dock {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  width: 690px;
+  z-index: 10;
+}
+
+.dock-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+
+.dock-head span:last-child {
+  letter-spacing: 0.06em;
+}
+
+.waiting-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.wait-card {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  border-radius: 7px;
+  padding: 10px 11px;
+  position: relative;
+  overflow: hidden;
+  color: color-mix(in srgb, var(--scent) 58%, var(--ink));
+}
+
+.wait-card::after {
+  content: "";
+  position: absolute;
+  right: -16px;
+  bottom: -20px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--scent);
+  filter: blur(18px);
+  opacity: 0.42;
+}
+
+.wait-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wait-card small {
+  position: relative;
+  z-index: 1;
+  font-size: 7px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
+
+.wait-card h4 {
+  position: relative;
+  z-index: 1;
+  margin: 5px 0 7px;
+  font: 500 13px Georgia, "Songti SC", serif;
+}
+
+.wait-card b {
+  position: relative;
+  z-index: 1;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 12px;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+footer b {
+  color: var(--ink);
+}
+
+.glyph {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  mask: var(--glyph-url) center / contain no-repeat;
+  -webkit-mask: var(--glyph-url) center / contain no-repeat;
+  flex: 0 0 auto;
+}
+
+.node-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.drop-icon {
+  width: 19px;
+  height: 19px;
+}
+
+.pool-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.wait-icon {
+  width: 16px;
+  height: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pool-card {
+    transition: none;
+  }
+}
+

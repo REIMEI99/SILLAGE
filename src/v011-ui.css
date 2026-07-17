@@ -1,0 +1,21 @@
+.request-copy {
+  margin: -2px 0 12px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.request-row b {
+  max-width: 62%;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.wait-card .wait-request {
+  display: block;
+  max-height: 30px;
+  margin-top: 7px;
+  overflow: hidden;
+  line-height: 1.35;
+  letter-spacing: 0;
+}

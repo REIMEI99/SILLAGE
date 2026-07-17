@@ -1,0 +1,5 @@
+node_modules/
+dist/
+*.tsbuildinfo
+SILLAGE_v0.10_Codex_Handoff/
+data/session-records.json

@@ -1,0 +1,8 @@
+.node-count {
+  display: block;
+  color: color-mix(in srgb, var(--scent) 58%, var(--muted));
+  font: 500 7px Inter, "Microsoft YaHei", sans-serif;
+  font-style: normal;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}

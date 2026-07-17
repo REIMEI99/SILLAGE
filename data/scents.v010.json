@@ -1,0 +1,74 @@
+[
+  {
+    "id": "citrus",
+    "nameZh": "柑橘",
+    "nameEn": "Citrus",
+    "wheelIndex": 0,
+    "color": "#eed0aa",
+    "glyph": "assets/glyphs/citrus.svg",
+    "bagCopies": 6
+  },
+  {
+    "id": "aquatic",
+    "nameZh": "水生",
+    "nameEn": "Aquatic",
+    "wheelIndex": 1,
+    "color": "#c7dde0",
+    "glyph": "assets/glyphs/aquatic.svg",
+    "bagCopies": 6
+  },
+  {
+    "id": "green",
+    "nameZh": "绿意",
+    "nameEn": "Green",
+    "wheelIndex": 2,
+    "color": "#cfdcc3",
+    "glyph": "assets/glyphs/green.svg",
+    "bagCopies": 6
+  },
+  {
+    "id": "fruity",
+    "nameZh": "果香",
+    "nameEn": "Fruity",
+    "wheelIndex": 3,
+    "color": "#dfbcaa",
+    "glyph": "assets/glyphs/fruity.svg",
+    "bagCopies": 6
+  },
+  {
+    "id": "floral",
+    "nameZh": "花香",
+    "nameEn": "Floral",
+    "wheelIndex": 4,
+    "color": "#dfb7cb",
+    "glyph": "assets/glyphs/floral.svg",
+    "bagCopies": 6
+  },
+  {
+    "id": "amber",
+    "nameZh": "琥珀辛香",
+    "nameEn": "Amber Spice",
+    "wheelIndex": 5,
+    "color": "#ceb08f",
+    "glyph": "assets/glyphs/amber.svg",
+    "bagCopies": 6
+  },
+  {
+    "id": "woody",
+    "nameZh": "木质",
+    "nameEn": "Woody",
+    "wheelIndex": 6,
+    "color": "#bfae9c",
+    "glyph": "assets/glyphs/woody.svg",
+    "bagCopies": 6
+  },
+  {
+    "id": "aromatic",
+    "nameZh": "芳香草本",
+    "nameEn": "Aromatic",
+    "wheelIndex": 7,
+    "color": "#c1bddb",
+    "glyph": "assets/glyphs/aromatic.svg",
+    "bagCopies": 6
+  }
+]
