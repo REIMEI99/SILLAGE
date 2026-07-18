@@ -49,10 +49,10 @@ export function getPreviewCopy(
 ): PreviewCopy {
   const satisfaction = '\u6EE1\u610F\u5EA6 ' + formatSigned(preview.satisfactionAfter) + ' · \u53D8\u5316 ' + formatSigned(preview.satisfactionDelta);
   const technique = preview.techniqueAfter.isPerfect
-    ? '\u5B8C\u7F8E\u6280\u6CD5 ' + preview.techniqueAfter.labelZh + ' · +' + preview.techniqueAfter.perfectBonus
+    ? '\u5B8C\u7F8E\u6280\u6CD5 ' + preview.techniqueAfter.labelZh + ' · ' + preview.techniqueAfter.score + '\u5206'
     : preview.techniqueAfter.score > 0
       ? preview.techniqueAfter.labelZh + ' ' + preview.techniqueAfter.level + '\u7EA7 · ' + preview.techniqueAfter.score + '\u5206'
-      : '\u6280\u6CD5\u65E0\u52A0\u6210';
+      : '\u65E0\u6280\u6CD5 · 0\u5206';
   const detail = customer
     ? preview.becomesPerfect
       ? '\u52A0\u5165' + scentById[scent].nameZh + '\u540E\u5B8C\u6210' + preview.techniqueAfter.labelZh + '\u7ED3\u6784\u3002'
@@ -68,5 +68,6 @@ export function getPreviewCopy(
 }
 
 export function getTechniqueResultLabel(result: TechniqueResult): string {
+  if (result.type === 'NONE') return '\u65E0\u6280\u6CD5';
   return result.isPerfect ? '\u5B8C\u7F8E ' + result.labelZh : result.labelZh + ' ' + result.level + '\u7EA7';
 }

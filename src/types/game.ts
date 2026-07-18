@@ -12,8 +12,8 @@ export type Side = 'left' | 'right';
 export type GamePhase = 'drawing' | 'mixing' | 'delivery' | 'customer_selection' | 'game_over';
 export type CustomerType = 'FOCUS' | 'DUET' | 'TRIO' | 'SPECIAL';
 export type SpecialRule = 'COUNT_FOCUS' | 'UNIQUE_LAYERS';
-export type TechniqueType = 'INTENSE' | 'PURE' | 'LAYERED';
-export type RulesVersion = '0.13';
+export type TechniqueType = 'NONE' | 'INTENSE' | 'PURE' | 'LAYERED';
+export type RulesVersion = '0.14';
 
 export interface ScentDefinition {
   id: ScentType;
@@ -46,10 +46,9 @@ export interface TechniqueResult {
   type: TechniqueType;
   labelZh: string;
   labelEn: string;
-  level: 0 | 1 | 2;
-  score: 0 | 1 | 2 | 7 | 8;
+  level: 0 | 1 | 2 | 3;
+  score: 0 | 2 | 4 | 7 | 8;
   isPerfect: boolean;
-  perfectBonus: 0 | 5 | 6;
 }
 
 export interface PreviewResult {
@@ -78,6 +77,9 @@ export interface GameEvent {
     | 'ORDER_DELIVERED'
     | 'DELIVERY_RESOLVED'
     | 'CUSTOMER_SELECTED'
+    | 'CUSTOMER_TRANSFERRED'
+    | 'ORDER_ABANDONED'
+    | 'OVERTIME_STARTED'
     | 'GAME_OVER';
   payload: Record<string, unknown>;
 }
@@ -124,6 +126,7 @@ export interface GameState {
   waitingCustomers: Customer[];
   customerDeck: Customer[];
   deliveryDecisions: Partial<Record<Side, boolean>>;
+  transferUsed: boolean;
   events: GameEvent[];
   deliveredOrders: DeliveredOrder[];
   roundsCompleted: number;
@@ -137,6 +140,7 @@ export type GameAction =
   | { type: 'SET_DELIVERY_DECISION'; side: Side; deliver: boolean }
   | { type: 'RESOLVE_DELIVERY' }
   | { type: 'SELECT_CUSTOMER'; side: Side; customerId: string }
+  | { type: 'TRANSFER_CUSTOMER'; side: Side; customerId: string }
   | { type: 'ADVANCE_ROUND' };
 
 export interface GameRecord {

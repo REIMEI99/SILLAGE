@@ -1,4 +1,4 @@
-import { MAX_ROUNDS, RULES_VERSION } from '../rules/gameRules';
+import { MAX_OVERTIME_ROUND, MAX_ROUNDS, RULES_VERSION } from '../rules/gameRules';
 
 interface StartScreenProps {
   recordCount: number;
@@ -32,7 +32,7 @@ export function StartScreen({ recordCount, onStart, onDashboard }: StartScreenPr
         <div className="screen-facts">
           <span>8 香气</span>
           <span>16 位顾客</span>
-          <span>{MAX_ROUNDS} 回合</span>
+          <span>{MAX_ROUNDS} 回合 + 最多 {MAX_OVERTIME_ROUND - MAX_ROUNDS} 加班</span>
           <span>3 种技法</span>
         </div>
       </section>

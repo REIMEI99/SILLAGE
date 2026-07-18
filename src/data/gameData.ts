@@ -1,5 +1,5 @@
 import scentsJson from '../../data/scents.v010.json';
-import customersJson from '../../data/customers.v013.json';
+import customersJson from '../../data/customers.v014.json';
 import citrusGlyph from '../../assets/glyphs/citrus.svg?url';
 import aquaticGlyph from '../../assets/glyphs/aquatic.svg?url';
 import greenGlyph from '../../assets/glyphs/green.svg?url';

@@ -415,7 +415,7 @@
 
 .technique-summary {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   margin-top: 8px;
 }
@@ -512,4 +512,50 @@
   .screen-button {
     width: 100%;
   }
+}
+
+.transfer-button {
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.42);
+  color: var(--ink);
+  font: 500 10px Georgia, "Songti SC", serif;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+
+.transfer-button span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font: 400 7px Inter, sans-serif;
+  letter-spacing: 0.1em;
+}
+
+.transfer-button:hover,
+.transfer-button:focus-visible,
+.transfer-button.active {
+  border-color: rgba(38, 53, 60, 0.38);
+  background: rgba(255, 255, 255, 0.76);
+  outline: none;
+}
+
+.transfer-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.transfer-preview {
+  display: block;
+  margin-top: 5px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.closing-panel,
+.overtime-panel {
+  border-color: rgba(38, 53, 60, 0.28);
 }

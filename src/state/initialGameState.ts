@@ -115,6 +115,7 @@ export function createNewGameState(options: StartGameOptions): GameState {
     waitingCustomers,
     customerDeck,
     deliveryDecisions: {},
+    transferUsed: false,
     events: [startedEvent],
     deliveredOrders: [],
     roundsCompleted: 0,

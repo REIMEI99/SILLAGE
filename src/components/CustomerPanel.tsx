@@ -7,9 +7,20 @@ import type { Side, WorktableState } from '../types/game';
 interface CustomerPanelProps {
   side: Side;
   worktable: WorktableState;
+  transferAvailable: boolean;
+  transferActive: boolean;
+  transferUsed: boolean;
+  onToggleTransfer: () => void;
 }
 
-export function CustomerPanel({ side, worktable }: CustomerPanelProps) {
+export function CustomerPanel({
+  side,
+  worktable,
+  transferAvailable,
+  transferActive,
+  transferUsed,
+  onToggleTransfer,
+}: CustomerPanelProps) {
   const accent = side === 'left' ? 'var(--left)' : 'var(--right)';
   const customer = worktable.customer;
   if (!customer) {
@@ -59,6 +70,15 @@ export function CustomerPanel({ side, worktable }: CustomerPanelProps) {
           <b>{getSatisfactionRuleText(customer)}</b>
         </div>
       </div>
+      <button
+        className={`transfer-button${transferActive ? ' active' : ''}`}
+        type="button"
+        disabled={!transferAvailable && !transferActive}
+        onClick={onToggleTransfer}
+      >
+        {transferActive ? '取消转单选择' : transferUsed ? '本局转单已使用' : '转单 · 保留配方更换顾客'}
+        <span>{transferActive ? 'CANCEL TRANSFER' : 'ONCE PER GAME · COSTS 1 ACTION'}</span>
+      </button>
     </article>
   );
 }

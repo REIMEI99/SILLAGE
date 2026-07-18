@@ -39,6 +39,7 @@ export function DashboardScreen({ records, onBack }: DashboardScreenProps) {
           <div className="stat-card"><span>完成回合</span><b>{number(stats.averageRounds)}</b></div>
         </div>
         <section className="technique-summary">
+          <div><span>NONE / 无技法</span><b>{stats.techniqueCounts.NONE}</b></div>
           <div><span>INTENSE / 浓烈</span><b>{stats.techniqueCounts.INTENSE}</b></div>
           <div><span>PURE / 纯粹</span><b>{stats.techniqueCounts.PURE}</b></div>
           <div><span>LAYERED / 层叠</span><b>{stats.techniqueCounts.LAYERED}</b></div>

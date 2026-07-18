@@ -1,57 +1,84 @@
-import type { ScentType, TechniqueResult } from '../types/game';
-import { PERFECT_TECHNIQUE_BONUS } from './gameRules';
+import type { ScentType, TechniqueResult, TechniqueType } from '../types/game';
 
-const TECHNIQUE_LABELS = {
+type CraftTechniqueType = Exclude<TechniqueType, 'NONE'>;
+type TechniqueLevel = TechniqueResult['level'];
+
+const TECHNIQUE_LABELS: Record<CraftTechniqueType, { labelZh: string; labelEn: string }> = {
   INTENSE: { labelZh: '浓烈', labelEn: 'INTENSE' },
   PURE: { labelZh: '纯粹', labelEn: 'PURE' },
   LAYERED: { labelZh: '层叠', labelEn: 'LAYERED' },
-} as const;
+};
 
-function countsFor(formula: ScentType[]): Map<ScentType, number> {
-  return formula.reduce((counts, scent) => {
-    counts.set(scent, (counts.get(scent) ?? 0) + 1);
-    return counts;
+function countsFor(formula: ScentType[]): number[] {
+  const counts = formula.reduce((result, scent) => {
+    result.set(scent, (result.get(scent) ?? 0) + 1);
+    return result;
   }, new Map<ScentType, number>());
+  return [...counts.values()].sort((a, b) => b - a);
 }
 
-function result(
-  type: TechniqueResult['type'],
-  level: 0 | 1 | 2,
-  isPerfect: boolean,
-): TechniqueResult {
-  const perfectBonus = isPerfect ? PERFECT_TECHNIQUE_BONUS[type] : 0;
+function scoreFor(type: CraftTechniqueType, level: TechniqueLevel): TechniqueResult['score'] {
+  if (level === 3) return type === 'INTENSE' ? 8 : 7;
+  if (level === 2) return 4;
+  if (level === 1) return 2;
+  return 0;
+}
+
+function result(type: CraftTechniqueType, level: TechniqueLevel): TechniqueResult {
   return {
     type,
     ...TECHNIQUE_LABELS[type],
     level,
-    score: isPerfect ? (perfectBonus === 6 ? 8 : 7) : level,
-    isPerfect,
-    perfectBonus,
+    score: scoreFor(type, level),
+    isPerfect: level === 3,
   };
 }
 
+function noTechnique(): TechniqueResult {
+  return {
+    type: 'NONE',
+    labelZh: '无技法',
+    labelEn: 'NONE',
+    level: 0,
+    score: 0,
+    isPerfect: false,
+  };
+}
+
+function matchesSignature(counts: number[], signature: number[]): boolean {
+  return counts.length === signature.length && counts.every((count, index) => count === signature[index]);
+}
+
 export function getIntenseScore(formula: ScentType[]): TechniqueResult {
-  const counts = [...countsFor(formula).values()];
-  const maxCount = counts.length ? Math.max(...counts) : 0;
-  const isPerfect = formula.length >= 5 && counts.length === 2 && maxCount >= 4;
-  const level = maxCount >= 3 ? 2 : maxCount === 2 ? 1 : 0;
-  return result('INTENSE', level, isPerfect);
+  const counts = countsFor(formula);
+  const maxCount = counts[0] ?? 0;
+  const uniqueCount = counts.length;
+  const isTierThree = formula.length >= 5 && uniqueCount <= 2 && maxCount >= 4;
+  if (isTierThree) return result('INTENSE', 3);
+  if (maxCount >= 4) return result('INTENSE', 2);
+  if (formula.length >= 4 && maxCount >= 3) return result('INTENSE', 1);
+  return result('INTENSE', 0);
 }
 
 export function getPureScore(formula: ScentType[]): TechniqueResult {
-  const duplicateKinds = [...countsFor(formula).values()].filter((count) => count >= 2);
-  const counts = [...countsFor(formula).values()];
-  const isPerfect =
-    formula.length >= 5 && counts.length === 2 && counts.every((count) => count >= 2);
-  const level = duplicateKinds.length >= 2 ? 2 : duplicateKinds.length === 1 ? 1 : 0;
-  return result('PURE', level, isPerfect);
+  const counts = countsFor(formula);
+  const duplicateKinds = counts.filter((count) => count >= 2).length;
+  const isTierThree =
+    matchesSignature(counts, [3, 2]) ||
+    matchesSignature(counts, [3, 3]) ||
+    matchesSignature(counts, [2, 2, 2]);
+  if (isTierThree) return result('PURE', 3);
+  if (formula.length >= 5 && duplicateKinds >= 2) return result('PURE', 2);
+  if (formula.length >= 4 && duplicateKinds >= 2) return result('PURE', 1);
+  return result('PURE', 0);
 }
 
 export function getLayeredScore(formula: ScentType[]): TechniqueResult {
-  const uniqueCount = countsFor(formula).size;
-  const isPerfect = uniqueCount === 6;
-  const level = uniqueCount >= 3 ? 2 : uniqueCount === 2 ? 1 : 0;
-  return result('LAYERED', level, isPerfect);
+  const uniqueCount = countsFor(formula).length;
+  if (uniqueCount === 6) return result('LAYERED', 3);
+  if (uniqueCount === 5) return result('LAYERED', 2);
+  if (uniqueCount === 4) return result('LAYERED', 1);
+  return result('LAYERED', 0);
 }
 
 export function getBestTechnique(formula: ScentType[]): TechniqueResult {
@@ -60,7 +87,8 @@ export function getBestTechnique(formula: ScentType[]): TechniqueResult {
     getPureScore(formula),
     getLayeredScore(formula),
   ];
-  return candidates.reduce((best, candidate) =>
-    candidate.score > best.score ? candidate : best,
+  const best = candidates.reduce((current, candidate) =>
+    candidate.score > current.score ? candidate : current,
   );
+  return best.score > 0 ? best : noTechnique();
 }

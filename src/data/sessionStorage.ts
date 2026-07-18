@@ -48,7 +48,7 @@ function downloadRecords(records: GameRecord[]) {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement('a');
   anchor.href = url;
-  anchor.download = 'sillage-v013-session-records.json';
+  anchor.download = 'sillage-v014-session-records.json';
   anchor.click();
   URL.revokeObjectURL(url);
 }
@@ -73,6 +73,7 @@ export async function saveGameRecord(record: GameRecord): Promise<GameRecord[]> 
 
 export function getDashboardStats(records: GameRecord[]): DashboardStats {
   const techniqueCounts: Record<TechniqueType, number> = {
+    NONE: 0,
     INTENSE: 0,
     PURE: 0,
     LAYERED: 0,
